@@ -3,12 +3,18 @@ server:
 
 spring:
   elasticsearch:
-    uris: http://172.28.246.145:9200
+    uris: http://192.168.0.66:9200
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://172.28.246.145:3306/verse_system?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    url: jdbc:mysql://192.168.0.66:3306/verse_system?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     username: root
     password: 123456
+
+
+  redis:
+    host: 192.168.0.66
+    port: 6379
+
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

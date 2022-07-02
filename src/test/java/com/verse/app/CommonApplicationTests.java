@@ -23,7 +23,6 @@ class CommonApplicationTests {
     @Test
     void contextLoads() {
 
-
     }
 
     @Test
@@ -74,7 +73,7 @@ class CommonApplicationTests {
                     String[] split1 = author.split("·");
                     String dynasty = split1[0];
                     if(dynasty.contains("代")) {
-                        dynasty.replace("代", "朝");
+                        dynasty = dynasty.replace("代", "朝");
                     }
                     author = split1[1];
                     String info = "{\"title\":" + "\""+title+"\"" + "," + "\"content\":" + "\"" + content + "\"," + "\"author\":"
@@ -113,5 +112,6 @@ class CommonApplicationTests {
         DecodedJWT verify = JwtTokenUtils.verify(caicia);
         System.out.println(verify.getClaim("username").asString());
     }
+
 
 }

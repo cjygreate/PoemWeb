@@ -23,7 +23,6 @@ public class HomePageServiceImpl implements HomePageService {
         SearchResponse response;
         Poem poem = new Poem();
         try {
-
             response = ESUtils.queryESForBoolMustTerm("poem", "_doc", "title", title);
             //获取到结果
             SearchHits hits = response.getHits();
@@ -31,7 +30,18 @@ public class HomePageServiceImpl implements HomePageService {
             if(iterator.hasNext()) {
                 SearchHit searchHit = iterator.next();
                 poem = JSONObject.parseObject(searchHit.getSourceAsString(), Poem.class);
-                List<String> list = new ArrayList<>(Arrays.asList(poem.getContent().split("。")));
+                List<String> list = new ArrayList<>();
+                String[] split = poem.getContent().split("。");
+                for (String s : split) {
+                    if(s.contains("！")) {
+                        String[] split1 = s.split("！");
+                        for (String s1 : split1) {
+                            list.add(s1 + "！");
+                        }
+                    }else {
+                        list.add(s + "。");
+                    }
+                }
                 poem.setContentList(list);
                 poem.setId(searchHit.getId());
             }
