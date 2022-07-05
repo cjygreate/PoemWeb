@@ -17,6 +17,8 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.xcontent.XContentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
@@ -27,6 +29,8 @@ import java.util.List;
 import java.util.Properties;
 
 public class ESUtils {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ESUtils.class);
 
     private static RestHighLevelClient restHighLevelClient = null;
 
@@ -41,6 +45,7 @@ public class ESUtils {
             int port = Integer.parseInt(address[2]);
             ESUtils.restHighLevelClient = new RestHighLevelClient(RestClient.builder(new HttpHost(host, port, protocol)));
         } catch (IOException e) {
+            LOGGER.error("application.properties属性文件读取异常");
             System.out.println("application.properties属性文件读取异常" + e);
         }
 
@@ -82,6 +87,7 @@ public class ESUtils {
         try {
             BulkResponse bulk = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
         } catch (IOException e) {
+            LOGGER.error("插入es数据异常，索引名称：{}，类型：{}，内容：{}", index, type, JSONObject.toJSONString(T));
             throw new RuntimeException(e);
         }
     }

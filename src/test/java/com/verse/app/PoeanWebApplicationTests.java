@@ -8,6 +8,8 @@ import com.verse.app.entity.Poem;
 import com.verse.app.entity.Poet;
 import com.verse.app.utils.ESUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -21,6 +23,8 @@ import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.xcontent.XContentType;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -33,6 +37,8 @@ import java.util.List;
 
 @SpringBootTest
 class PoeanWebApplicationTests {
+
+    private static final Logger logger = LoggerFactory.getLogger(PoeanWebApplicationTests.class);
 
     @Test
     void contextLoads() {
@@ -118,6 +124,11 @@ class PoeanWebApplicationTests {
     public void testMybatis() {
         Poet poet = poetDao.queryPoetById(1l);
         System.out.println(poet);
+    }
+
+    @Test
+    public void testLogger() {
+        logger.info("testlog......");
     }
 
 

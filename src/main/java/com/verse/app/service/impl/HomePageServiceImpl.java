@@ -1,12 +1,15 @@
 package com.verse.app.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.verse.app.controller.PersonPoemController;
 import com.verse.app.entity.Poem;
 import com.verse.app.service.HomePageService;
 import com.verse.app.utils.ESUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ import java.util.List;
 
 @Service
 public class HomePageServiceImpl implements HomePageService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(HomePageServiceImpl.class);
 
     @Override
     public Poem queryPoemByTitle(String title) throws Exception {
@@ -46,6 +51,7 @@ public class HomePageServiceImpl implements HomePageService {
                 poem.setId(searchHit.getId());
             }
         }catch (Exception e) {
+            LOGGER.error("根据标题查询诗歌异常：{}", title);
             throw e;
         }
 

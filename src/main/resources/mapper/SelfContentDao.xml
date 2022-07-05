@@ -22,4 +22,15 @@
             NOW()
         )
     </insert>
+
+    <select id="queryContent" parameterType="java.lang.Long" resultType="com.verse.app.entity.SelfContent">
+        select
+            title,
+            content
+        from self_content sc
+        where
+            exists (
+                select id from user_content_rel where user_id=#{id} and content_id=sc.id
+            )
+    </select>
 </mapper>

@@ -6,14 +6,21 @@ import com.verse.app.entity.SelfContent;
 import com.verse.app.entity.UserContentRel;
 import com.verse.app.entity.UserInfo;
 import com.verse.app.service.SelfContentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class SelfContentServiceImpl implements SelfContentService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SelfContentServiceImpl.class);
 
     @Autowired
     private SelfContentDao contentDao;
@@ -33,7 +40,10 @@ public class SelfContentServiceImpl implements SelfContentService {
     }
 
     @Override
-    public SelfContent queryContent() {
-        return null;
+    public List<SelfContent> queryContent() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        UserInfo userInfo = (UserInfo) context.getAuthentication().getPrincipal();
+        List<SelfContent> contents = contentDao.queryContent(userInfo.getId());
+        return contents;
     }
 }
